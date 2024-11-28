@@ -1,0 +1,47 @@
+<html>
+    <%- include('./partials/head.ejs') %>
+    <body>
+        <%- include('./partials/nav.ejs') %>
+
+        <div class="page-details">
+            <h2><%= blog.title %></h2>
+            <div class="single">
+                <p><%= blog.body %></p>
+            </div>
+           
+            <a class="delete" data-doc="<%= blog._id %>">Delete</a>
+            <button class="update" data-doc =<%= blog._id %>>Update</button>
+        </div>
+        
+    </body>
+    <script>
+        //all this is an AJAX form not a webform
+        const garbage = document.querySelector('a.delete'); //access the tag we want to work on
+        garbage.addEventListener('click',(e)=>{  // add the eventlistener to instruct what  event to be triggered as 1st arg and what to do as the second argument
+            const endpoint = `/blogs/${garbage.dataset.doc}`; //this is where the request is gonna be sent to
+            fetch(endpoint,{
+                method: 'DELETE'
+            })
+            .then((response) => response.json()) // receives response as json from the server and pass it to the next promise
+            .then((data)=> window.location.href = data.redirect) // converts from json to readable javascript and does the correct redirect.
+            .catch(err=>console.log(err));
+        });
+
+        //update form fetch API
+        const newUpdate = document.querySelector(button.update);
+
+        newUpdate.addEventListener('click', () =>{
+            const endpoint = `/blogs/${newUpdate.dataset.doc}`;
+
+            fetch(endpoint, () => {
+                method: 'PUT'
+            })
+            .then(response =>{response.json()})
+            .then(data => windwos.location.href = data.redirect)
+        })
+
+
+
+
+    </script>
+</html>
